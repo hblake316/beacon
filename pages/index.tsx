@@ -1,18 +1,13 @@
 import * as React from 'react'
-import { LocalizationProvider } from '@mui/x-date-pickers'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-import {
-  Box,
-  ThemeProvider
-} from '@mui/material'
-import { theme } from '../themes/theme'
-import {
-  Global,
-  css
-} from '@emotion/react'
+import { Box, Button, ThemeProvider } from '@mui/material'
+import { themeDark, themeLight } from '../styles/theme'
+import { Global, css } from '@emotion/react'
 import { NumerologyCard } from '../components/numerology/NumerologyCard'
+import { useState } from 'react'
 
 const globalStyles = css`
   body {
@@ -21,39 +16,33 @@ const globalStyles = css`
 `
 
 export const App = () => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+
   return (
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider
-        dateAdapter={AdapterDateFns}
-      >
+    <ThemeProvider theme={themeLight}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Global styles={globalStyles} />
         <Box
           sx={{
+            padding: '1rem',
             display: 'flex',
             flexDirection: 'column',
-            minHeight: '100vh'
+            minHeight: '100vh',
+            bgcolor: 'background.default',
+            gap: '1rem',
           }}
         >
-          <Header title='Beacon' />
-          <Box
-            sx={{
-              flexGrow: 1,
-              width: '100%'
+          <Header title='beacon' />
+          <DatePicker
+            label='Birth Date'
+            slotProps={{ textField: { size: 'small' } }}
+            value={selectedDate}
+            onChange={(newValue) => {
+              setSelectedDate(newValue)
             }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                '& > *': {
-                  m: 1
-                }
-              }}
-            >
-              <NumerologyCard />
-            </Box>
-          </Box>
-          <Footer />
+            sx={{ maxWidth: '200px' }}
+          />
+          <NumerologyCard birthDate={selectedDate} />
         </Box>
       </LocalizationProvider>
     </ThemeProvider>

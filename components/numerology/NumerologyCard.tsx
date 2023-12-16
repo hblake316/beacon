@@ -3,71 +3,37 @@ import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers'
-import {
-  Fragment,
-  useState
-} from 'react'
+import { Fragment, useState } from 'react'
 import { calculateDigitalRoot } from './NumerologyCard.utils'
 import { YouTubeButton } from '../YouTubeButton'
 
-export const NumerologyCard = () => {
-  const [
-    selectedDate,
-    setSelectedDate
-  ] = useState<Date | null>(null)
+interface NumerologyCardProps {
+  birthDate: Date | null
+}
+
+export const NumerologyCard = ({ birthDate }: NumerologyCardProps) => {
   return (
     <Box sx={{ minWidth: 275 }}>
       <Card variant='outlined'>
         <Fragment>
           <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color='text.secondary'
-              gutterBottom
-            >
-              Numerology
-            </Typography>
-            <DatePicker
-              value={selectedDate}
-              onChange={(newValue) => {
-                setSelectedDate(
-                  newValue
-                )
-              }}
-            />
-            <Typography
-              sx={{ fontSize: 14 }}
-              color='text.secondary'
-              gutterBottom
-            >
+            <Typography variant='h3'>Numerology</Typography>
+            <Typography variant='body1'>
               Life Path:{' '}
-              {selectedDate
-                ? calculateDigitalRoot(
-                    selectedDate,
-                    true
-                  )
-                : ''}
+              {birthDate ? calculateDigitalRoot(birthDate, true) : ''}
             </Typography>{' '}
-            <Typography
-              sx={{ fontSize: 14 }}
-              color='text.secondary'
-              gutterBottom
-            >
+            <Typography variant='body1'>
               2023 Personal Year:{' '}
-              {selectedDate
-                ? calculateDigitalRoot(
-                    selectedDate,
-                    false
-                  )
-                : ''}
+              {birthDate ? calculateDigitalRoot(birthDate, false) : ''}
             </Typography>
           </CardContent>
           <CardActions>
-            <YouTubeButton
-              value={`life path numbers`}
-            />
+            <Button variant='contained' color='secondary'>
+              Copy
+            </Button>
+            <YouTubeButton value={`life path numbers`} />
           </CardActions>
         </Fragment>
       </Card>
