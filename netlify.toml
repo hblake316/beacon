@@ -1,9 +1,15 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = "out"
 
 [build.environment]
   NEXT_TELEMETRY_DISABLED = "1"
+  NODE_VERSION = "18.19.0"
 
 [functions]
   included_files = ["node_modules/**/*"]
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
